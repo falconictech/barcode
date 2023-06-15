@@ -15,7 +15,20 @@
     </div>
     <div class="bg-white">
         <div class="content content-full">
-            <div class="row no-gutters justify-content-center text-center nice-copy py-50">
+            @if ($errors->any())
+                @foreach ($errors->all() as $error)
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="alert alert-danger alert-dismissible" role="alert">
+                                
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="alert alert-danger" role="alert">{{ $error }}</div>
+                @endforeach
+            @endif
+            <div class="row no-gutters py-50">
                 <div class="col-12">
                     <div class="block block-themed">
                         <div class="block-header">
@@ -27,18 +40,42 @@
                             </div>
                         </div>
                         <div class="block-content">
-                            <div>{!! DNS1D::getBarcodeHTML('4445645656', 'C39') !!}</div></br>
-                            <div>{!! DNS1D::getBarcodeHTML('4445645656', 'POSTNET') !!}</div></br>
-                            <div>{!! DNS1D::getBarcodeHTML('4445645656', 'PHARMA') !!}</div></br>
-                            <div>{!! DNS2D::getBarcodeHTML('4445645656', 'QRCODE') !!}</div></br>
                             <form action="{{ route('bar-code.post') }}" method="post">
                                 @csrf
-                                <div class="form-group">
-                                    <input type="text" name="abc" class="form-control">
-                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <label for="">Mask: <span class="text-danger">*</span></label>
+                                            <label for="">For Example: STB-T-{number} leave number blank it's a range from min-max</label>
+                                            <input type="text" name="mask" class="form-control form-control-lg"
+                                                value="{{ old('mask') }}">
+                                        </div>
 
-                                <div class="form-group">
-                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                    </div>
+                                    <div class="col-lg-6 col-12">
+                                        <div class="form-group">
+                                            <label for="">Min: <span class="text-danger">*</span></label>
+                                            <input type="number" name="min" class="form-control form-control-lg"
+                                                value="{{ old('min') }}">
+                                        </div>
+
+                                    </div>
+                                    <div class="col-lg-6 col-12">
+                                        <div class="form-group">
+                                            <label for="">Max: <span class="text-danger">*</span></label>
+                                            <input type="number" name="max" class="form-control form-control-lg"
+                                                value="{{ old('max') }}">
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+
+                                        <div class="form-group">
+                                            <button type="submit" class="btn btn-primary">Submit</button>
+                                        </div>
+                                    </div>
                                 </div>
 
                             </form>
